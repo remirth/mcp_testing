@@ -5,3 +5,5 @@ const config = {
   tabWidth: 2,
   bracketSpacing: false,
 };
+
+module.exports = config;

@@ -1,5 +1,4 @@
-import { type StandardSchemaV1 } from "@standard-schema/spec";
-import { z } from "zod";
+import {type StandardSchemaV1} from '@standard-schema/spec';
 
 export interface Tool<
   Args extends undefined | StandardSchemaV1 = undefined | StandardSchemaV1,
@@ -17,12 +16,3 @@ export function tool<Args extends undefined | StandardSchemaV1>(
 ) {
   return input;
 }
-
-tool({
-  name: "foo",
-  description: "bar",
-  args: z.object({
-    foo: z.string(),
-  }),
-  async run(args) {},
-});
