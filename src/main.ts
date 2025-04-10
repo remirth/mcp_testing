@@ -4,6 +4,8 @@ import {createAnthropic} from '@ai-sdk/anthropic';
 import {MCP} from './mcp.ts';
 import {getSystemPrompt} from './system.ts';
 import readline from 'node:readline';
+import {queryWmi} from './wmi.ts';
+import assert from 'node:assert';
 
 const tools: Array<Tool> = [
   tool({
@@ -17,10 +19,20 @@ const tools: Array<Tool> = [
       return args.x + args.y;
     },
   }),
+  tool({
+    name: 'WQL-query',
+    description: "Write a WQL query that queries the system's WMI",
+    args: z.object({
+      query: z.string().describe('The WQL Query'),
+    }),
+    run: async (args) => {
+      return queryWmi(args.query);
+    },
+  }),
 ];
 
 const apiKey = process.env['ANTHROPIC_API_KEY'];
-if (!apiKey) throw new Error('NO API KEY');
+assert(apiKey, 'NO API KEY IN ENV');
 
 const model = createAnthropic({apiKey})('claude-3-7-sonnet-20250219');
 const systemPrompt = await getSystemPrompt();
@@ -31,7 +43,9 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-console.log('Welcome to MCP Test, enter your prompt');
+console.clear();
+console.log('Welcome to this MCP test');
+console.log('State your prompt.');
 process.stdout.write('> ');
 for await (const line of rl) {
   if (line === 'exit') {
