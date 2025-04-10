@@ -1,5 +1,4 @@
 import {execAsync, parseJson} from './system.ts';
-import sh from 'node:child_process';
 
 async function detectWmiCommand() {
   try {
