@@ -16,11 +16,13 @@
     "@ai-sdk/anthropic": "^1.2.9",
     "@langchain/community": "^0.3.40",
     "@langchain/core": "^0.3.44",
+    "@langchain/langgraph": "^0.2.63",
     "@langchain/ollama": "^0.2.0",
     "@modelcontextprotocol/sdk": "^1.9.0",
     "@standard-schema/spec": "^1.0.0",
     "ai": "^4.3.4",
     "langchain": "^0.3.21",
+    "prexit": "^2.3.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
