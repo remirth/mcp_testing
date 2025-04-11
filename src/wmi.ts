@@ -26,7 +26,15 @@ async function detectWmiCommand() {
 export async function queryWmi(wqlQuery: string) {
   const cmd = await detectWmiCommand();
   return execAsync(
-    `powershell.exe -Command "${cmd} -Query '${wqlQuery}' | ConvertTo-Json -Depth 5"`,
-    {maxBuffer: 1024 * 1024 * 1000}, // 10MB buffer
+    `powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "${cmd} -Query '${wqlQuery}' | ConvertTo-Json -Depth 5"`,
+    {maxBuffer: 1024 * 1024 * 1000},
   ).then(parseJson);
+}
+
+export async function pwshCommand(cmd: string) {
+  const wrappedCommand = `$ExecutionContext.SessionState.LanguageMode = 'ConstrainedLanguage'; ${cmd}`;
+  return execAsync(
+    `powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "${wrappedCommand}"`,
+    {maxBuffer: 1024 * 1024 * 1000},
+  );
 }

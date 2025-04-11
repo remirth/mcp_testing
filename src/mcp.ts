@@ -39,11 +39,11 @@ type McpOptions = {
 };
 
 export class MCP {
-  #prompt: LanguageModelV1Prompt;
+  #prompt: LanguageModelV1Prompt = [];
   #listTools: ListToolsResult;
   #input: McpOptions;
-  constructor(options: McpOptions) {
-    this.#input = options;
+
+  resetHistory = () => {
     this.#prompt = [
       {
         role: 'system',
@@ -56,6 +56,11 @@ export class MCP {
         providerMetadata,
       },
     ];
+  };
+
+  constructor(options: McpOptions) {
+    this.#input = options;
+    this.resetHistory();
 
     this.#listTools = {
       tools: this.#input.tools.map((tool) => ({
